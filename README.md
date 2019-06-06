@@ -46,8 +46,7 @@ The instructions are at the bottom of this readme.
 
 4. Use a client to generate and send http requests to the proxy you just deployed . Eg,
    ```
-   curl -i 'https://$ORG-$ENV.apigee.net/sleeper/t1'
-
+   curl -i "https://$ORG-$ENV.apigee.net/sleeper/t1"
    ```
 
 
