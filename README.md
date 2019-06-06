@@ -6,11 +6,15 @@ policy does one simple thing: sleeps for a designated or random amount of time.
 
 ## Why might this be useful?
 
-1. Some people are concerned that an API that generates errors and always returns
-within a fixed time may be subject to remote timing attacks. This callout would alleviate that concern.
+1. Some people are concerned that an API that generates errors and always
+returns naturally, as quickly as possible, may be subject to [remote timing
+attacks](https://en.wikipedia.org/wiki/Timing_attack). This callout could
+alleviate that concern. You could introduce this callout into the proxy flow,
+perhaps in a fault rule, and that would cause the response time to be
+randomized, preventing a timnig attack.
 
 2. In cases in which a caller is suspect, or has caused several consecutive errors,
-this callout could force a delay before retry.
+this callout could force a fixed delay, or a backoff delay, before retry.
 
 ## Disclaimer
 
