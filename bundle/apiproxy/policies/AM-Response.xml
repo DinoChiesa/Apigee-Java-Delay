@@ -2,9 +2,9 @@
   <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
   <Set>
     <Payload contentType='application/json'>{
-  "start" : "{sleep.start}",
-  "delay" : "{sleep.delay}",
-  "end" : "{sleep.end}"
+  "start" : "{delay.start}",
+  "delay" : "{delay.delay}",
+  "end" : "{delay.end}"
 }
 </Payload>
     <StatusCode>200</StatusCode>

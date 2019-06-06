@@ -1,4 +1,4 @@
-package com.google.apigee.edgecallouts.sleeper;
+package com.google.apigee.edgecallouts.delay;
 
 import com.apigee.flow.execution.ExecutionContext;
 import com.apigee.flow.execution.ExecutionResult;
@@ -10,19 +10,19 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-public class SleeperCallout extends CalloutBase implements Execution {
+public class DelayCallout extends CalloutBase implements Execution {
 
   private static final int DEFAULT_MIN_DELAY_MILLISECONDS = 850;
   private static final int DEFAULT_MAX_DELAY_MILLISECONDS = 1850;
   private static final int MAX_DELAY_MILLISECONDS = 10000;
   private static final SecureRandom secureRandom = new SecureRandom();
 
-  public SleeperCallout(Map properties) {
+  public DelayCallout(Map properties) {
     super(properties);
   }
 
   public String getVarnamePrefix() {
-    return "sleep.";
+    return "delay.";
   }
 
   int randomDelay() {
@@ -47,17 +47,17 @@ public class SleeperCallout extends CalloutBase implements Execution {
     int delayMilliseconds = getDelay(messageContext);
     messageContext.setVariable(varName("delay"), Integer.toString(delayMilliseconds));
     executionContext.submitTask(
-        new SleepTask(delayMilliseconds, varName("end"), messageContext, executionContext));
+        new DelayTask(delayMilliseconds, varName("end"), messageContext, executionContext));
     return ExecutionResult.PAUSE;
   }
 
-  private static class SleepTask implements Runnable {
+  private static class DelayTask implements Runnable {
     int delayMilliseconds;
     String variableName;
     MessageContext messageContext;
     ExecutionContext executionContext;
 
-    SleepTask(
+    DelayTask(
         int delayMilliseconds,
         String variableName,
         MessageContext messageContext,

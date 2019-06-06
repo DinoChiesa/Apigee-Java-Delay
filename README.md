@@ -1,8 +1,8 @@
-# Sleeper callout
+# Delay callout
 
 This directory contains the Java source code and pom.xml file
 required to compile a simple custom policy for Apigee Edge. The
-policy does one simple thing: sleeps for a designated or random amount of time.
+policy does one simple thing: delays for a designated or a random amount of time.
 
 ## Why might this be useful?
 
@@ -30,16 +30,16 @@ configuration for the policy.  If you want to build it, feel free.
 The instructions are at the bottom of this readme.
 
 
-1. copy the jar file, available in  target/edge-custom-sleeper-1.0.1.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/edge-custom-sleeper-1.0.1.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
+1. copy the jar file, available in  target/edge-custom-delay-1.0.1.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/edge-custom-delay-1.0.1.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
 
 2. include an XML file for the Java callout policy in your
    apiproxy/resources/policies directory. It should look
    like this:
    ```xml
-    <JavaCallout name='Java-Sleep-1'>
+    <JavaCallout name='Java-Delay-1'>
         ...
-      <ClassName>com.google.apigee.edgecallouts.sleeper.SleeperCallout</ClassName>
-      <ResourceURL>java://edge-custom-sleeper-1.0.1.jar</ResourceURL>
+      <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+      <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
     </JavaCallout>
    ```
 
@@ -50,47 +50,47 @@ The instructions are at the bottom of this readme.
 
 4. Use a client to generate and send http requests to the proxy you just deployed . Eg,
    ```
-   curl -i "https://$ORG-$ENV.apigee.net/sleeper/t1"
+   curl -i "https://$ORG-$ENV.apigee.net/delay/t1"
    ```
 
 
 ## Notes on Usage
 
-There is one callout class, com.google.apigee.edgecallouts.sleeper.SleeperCallout.
+There is one callout class, com.google.apigee.edgecallouts.delay.DelayCallout.
 
 The delay time in milliseconds for the policy is configured via a property in the XML. By default it is a random number between 850 and 1850 milliseconds.
 
-## Example: Sleep a random amount of time
+## Example: Delay a random amount of time
 
 ```xml
-<JavaCallout name='Java-Sleep-1'>
-  <ClassName>com.google.apigee.edgecallouts.sleeper.SleeperCallout</ClassName>
-  <ResourceURL>java://edge-custom-sleeper-1.0.1.jar</ResourceURL>
+<JavaCallout name='Java-Delay-1'>
+  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
 </JavaCallout>
 ```
 
-## Example: Sleep 4 seconds
+## Example: Delay 4 seconds
 
 ```xml
-<JavaCallout name='Java-Sleep-1'>
+<JavaCallout name='Java-Delay-1'>
   <Properties>
     <!-- sleep 4 seconds -->
     <Property name='delay'>4000</Property>
   </Properties>
-  <ClassName>com.google.apigee.edgecallouts.sleeper.SleeperCallout</ClassName>
-  <ResourceURL>java://edge-custom-sleeper-1.0.1.jar</ResourceURL>
+  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
 </JavaCallout>
 ```
 
-## Example: Sleep a time determined by a variable
+## Example: Delay a time determined by a variable
 
 ```xml
-<JavaCallout name='Java-Sleep-1'>
+<JavaCallout name='Java-Delay-1'>
   <Properties>
     <Property name='delay'>{delayTime}</Property>
   </Properties>
-  <ClassName>com.google.apigee.edgecallouts.sleeper.SleeperCallout</ClassName>
-  <ResourceURL>java://edge-custom-sleeper-1.0.1.jar</ResourceURL>
+  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
 </JavaCallout>
 ```
 

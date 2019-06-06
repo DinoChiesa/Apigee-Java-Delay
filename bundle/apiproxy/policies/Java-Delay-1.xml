@@ -1,0 +1,4 @@
+<JavaCallout name='Java-Delay-1'>
+  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+</JavaCallout>

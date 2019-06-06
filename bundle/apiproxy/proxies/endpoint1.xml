@@ -1,7 +1,7 @@
 <ProxyEndpoint name="endpoint1">
 
   <HTTPProxyConnection>
-    <BasePath>/sleeper</BasePath>
+    <BasePath>/delay</BasePath>
     <Properties/>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
@@ -33,7 +33,7 @@
     <Flow name="t1">
       <Request>
         <Step>
-          <Name>Java-Sleep-1</Name>
+          <Name>Java-Delay-1</Name>
         </Step>
       </Request>
       <Response>

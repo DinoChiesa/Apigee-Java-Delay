@@ -1,8 +1,8 @@
-<APIProxy name="sleeper">
+<APIProxy name="delay">
   <ConfigurationVersion majorVersion="4" minorVersion="0"/>
   <CreatedAt>1491498008040</CreatedAt>
   <Description/>
-  <DisplayName>sleeper</DisplayName>
+  <DisplayName>delay</DisplayName>
   <LastModifiedAt>1491517153495</LastModifiedAt>
   <Policies/>
   <ProxyEndpoints/>
