@@ -1,0 +1,4 @@
+<JavaCallout name='Java-Sleep-1'>
+  <ClassName>com.google.apigee.edgecallouts.sleeper.SleeperCallout</ClassName>
+  <ResourceURL>java://edge-custom-sleeper-1.0.1.jar</ResourceURL>
+</JavaCallout>

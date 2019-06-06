@@ -1,0 +1,14 @@
+<AssignMessage name='AM-Response'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/json'>{
+  "start" : "{sleep.start}",
+  "delay" : "{sleep.delay}",
+  "end" : "{sleep.end}"
+}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+
+</AssignMessage>
