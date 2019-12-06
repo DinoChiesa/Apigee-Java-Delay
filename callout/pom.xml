@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.apigee.callout</groupId>
   <artifactId>edge-custom-delay</artifactId>
-  <version>1.0.1</version>
+  <version>20191206</version>
   <name>EdgeCustomDelay</name>
   <url>http://maven.apache.org</url>
   <packaging>jar</packaging>

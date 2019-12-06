@@ -26,18 +26,33 @@ public class DelayCallout extends CalloutBase implements Execution {
   }
 
   int randomDelay() {
-    return DEFAULT_MIN_DELAY_MILLISECONDS
+    return randomDelay(DEFAULT_MIN_DELAY_MILLISECONDS, DEFAULT_MAX_DELAY_MILLISECONDS);
+  }
+
+  int randomDelay(int min, int max) {
+    return min
         + ((int)
             (secureRandom.nextDouble()
-                * (DEFAULT_MAX_DELAY_MILLISECONDS - DEFAULT_MIN_DELAY_MILLISECONDS)));
+                * (max - min)));
   }
 
   int getDelay(MessageContext messageContext) throws NumberFormatException {
     String delayValue = getSimpleOptionalProperty("delay", messageContext);
     if (delayValue == null) return randomDelay();
-    int millisecondsDelay = Integer.parseInt(delayValue, 10);
-    if (millisecondsDelay < 0 || millisecondsDelay > MAX_DELAY_MILLISECONDS) return randomDelay();
-    return millisecondsDelay;
+    if (delayValue.indexOf(",") > 0) {
+      String[] parts = delayValue.split(",",2);
+      if (parts.length != 2) return randomDelay();
+      int min = Integer.parseInt(parts[0], 10);
+      int max = Integer.parseInt(parts[1], 10);
+      if (min>=max) return randomDelay();
+      if (min<0 || max <0) return randomDelay();
+      return randomDelay(min,max);
+    }
+    else {
+      int millisecondsDelay = Integer.parseInt(delayValue, 10);
+      if (millisecondsDelay < 0 || millisecondsDelay > MAX_DELAY_MILLISECONDS) return randomDelay();
+      return millisecondsDelay;
+    }
   }
 
   public ExecutionResult execute(

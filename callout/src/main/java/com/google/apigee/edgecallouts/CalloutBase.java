@@ -130,4 +130,23 @@ public abstract class CalloutBase {
     matcher.appendTail(sb);
     return (sb.length() > 0) ? sb.toString() : null;
   }
+  
+    private static final String qualifiedClassNameRegex =
+        "(?:[a-zA-Z_$][a-zA-Z0-9_$]*\\.)+[a-zA-Z_$][a-zA-Z0-9_$]*";
+    private static final String errorSuffixRegex =
+        ": (.+)";
+    private static final Pattern errorStringPattern =
+        Pattern.compile("^.*"+ qualifiedClassNameRegex + errorSuffixRegex + "$");
+
+    protected void setExceptionVariables(Exception exc1, MessageContext msgCtxt) {
+        String error = exc1.toString();
+        msgCtxt.setVariable(varName("exception"), error);
+        Matcher matcher = errorStringPattern.matcher(error);
+        if (matcher.find()) {
+            msgCtxt.setVariable(varName("error"), matcher.group(1));
+        }
+        else {
+            msgCtxt.setVariable(varName("error"), error);
+        }
+    }
 }

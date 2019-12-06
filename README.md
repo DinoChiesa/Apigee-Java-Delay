@@ -21,7 +21,6 @@ this callout could force a fixed delay, or a backoff delay, before retry.
 This example is not an official Google product, nor is it part of an
 official Google product.
 
-
 ## Using this policy
 
 You do not need to build the source code in order to use the policy
@@ -46,7 +45,9 @@ The instructions are at the bottom of this readme.
 3. use the Edge UI, or a command-line tool like [importAndDeploy.js](https://github.com/DinoChiesa/apigee-edge-js/blob/master/examples/importAndDeploy.js) or similar to
    import the proxy into an Edge organization, and then deploy the proxy .
    Eg,
-   ```node ./importAndDeploy.js -v -o $ORG -e $ENV -d ./bundle```
+   ```
+   node ./importAndDeploy.js -v -o $ORG -e $ENV -d ./bundle
+   ```
 
 4. Use a client to generate and send http requests to the proxy you just deployed . Eg,
    ```
@@ -62,19 +63,37 @@ The delay time in milliseconds for the policy is configured via a property in th
 
 ## Example: Delay a random amount of time
 
+The callout is compiled to sleep between 850 and 1850 milliseconds. It selects
+randomly.
+
 ```xml
 <JavaCallout name='Java-Delay-1'>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
   <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
 </JavaCallout>
 ```
+## Example: Delay a random amount of time
 
-## Example: Delay 4 seconds
+With this configuration you can specify the minimum and maximum time, and the
+callout will select a random value between them, and delay that amount.
 
 ```xml
 <JavaCallout name='Java-Delay-1'>
   <Properties>
-    <!-- sleep 4 seconds -->
+    <!-- delay between 350 and 750 milliseconds -->
+    <Property name='delay'>350,750</Property>
+  </Properties>
+  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+</JavaCallout>
+```
+
+## Example: Delay a precise amount of time
+
+```xml
+<JavaCallout name='Java-Delay-1'>
+  <Properties>
+    <!-- delay exactly 4 seconds -->
     <Property name='delay'>4000</Property>
   </Properties>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
