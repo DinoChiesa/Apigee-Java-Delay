@@ -29,7 +29,7 @@ configuration for the policy.  If you want to build it, feel free.
 The instructions are at the bottom of this readme.
 
 
-1. copy the jar file, available in  target/edge-custom-delay-1.0.1.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/edge-custom-delay-1.0.1.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
+1. copy the jar file, available in  target/edge-custom-delay-20191206.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/edge-custom-delay-20191206.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
 
 2. include an XML file for the Java callout policy in your
    apiproxy/resources/policies directory. It should look
@@ -38,7 +38,7 @@ The instructions are at the bottom of this readme.
     <JavaCallout name='Java-Delay-1'>
         ...
       <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-      <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+      <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
     </JavaCallout>
    ```
 
@@ -69,7 +69,7 @@ randomly.
 ```xml
 <JavaCallout name='Java-Delay-1'>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
 </JavaCallout>
 ```
 ## Example: Delay a random amount of time
@@ -84,7 +84,7 @@ callout will select a random value between them, and delay that amount.
     <Property name='delay'>350,750</Property>
   </Properties>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -97,7 +97,7 @@ callout will select a random value between them, and delay that amount.
     <Property name='delay'>4000</Property>
   </Properties>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -109,7 +109,7 @@ callout will select a random value between them, and delay that amount.
     <Property name='delay'>{delayTime}</Property>
   </Properties>
   <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-1.0.1.jar</ResourceURL>
+  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -122,7 +122,8 @@ this repo](bundle/apiproxy).
 
 ## Building
 
-Building from source requires Java 1.8, and Maven.
+You don't need to build this callout in order to use it.  But you can build it
+if you like. Building from source requires Java 1.8, and Maven.
 
 1. unpack (if you can read this, you've already done that).
 
