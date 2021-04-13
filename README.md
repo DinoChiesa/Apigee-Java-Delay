@@ -1,7 +1,7 @@
 # Delay callout
 
 This directory contains the Java source code and pom.xml file
-required to compile a simple custom policy for Apigee Edge. The
+required to compile a simple custom policy for Apigee. The
 policy does one simple thing: delays for a designated or a random amount of time.
 
 ## Why might this be useful?
@@ -29,7 +29,7 @@ configuration for the policy.  If you want to build it, feel free.
 The instructions are at the bottom of this readme.
 
 
-1. copy the jar file, available in  target/edge-custom-delay-20191206.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/edge-custom-delay-20191206.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
+1. copy the jar file, available in  target/apigee-custom-delay-20210412.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/apigee-custom-delay-20210412.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
 
 2. include an XML file for the Java callout policy in your
    apiproxy/resources/policies directory. It should look
@@ -37,8 +37,8 @@ The instructions are at the bottom of this readme.
    ```xml
     <JavaCallout name='Java-Delay-1'>
         ...
-      <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-      <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
+      <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+      <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
     </JavaCallout>
    ```
 
@@ -57,7 +57,7 @@ The instructions are at the bottom of this readme.
 
 ## Notes on Usage
 
-There is one callout class, com.google.apigee.edgecallouts.delay.DelayCallout.
+There is one callout class, com.google.apigee.callouts.delay.DelayCallout.
 
 The delay time in milliseconds for the policy is configured via a property in the XML. By default it is a random number between 850 and 1850 milliseconds.
 
@@ -68,8 +68,8 @@ randomly.
 
 ```xml
 <JavaCallout name='Java-Delay-1'>
-  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
 </JavaCallout>
 ```
 ## Example: Delay a random amount of time
@@ -83,8 +83,8 @@ callout will select a random value between them, and delay that amount.
     <!-- delay between 350 and 750 milliseconds -->
     <Property name='delay'>350,750</Property>
   </Properties>
-  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -96,8 +96,8 @@ callout will select a random value between them, and delay that amount.
     <!-- delay exactly 4 seconds -->
     <Property name='delay'>4000</Property>
   </Properties>
-  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -108,8 +108,8 @@ callout will select a random value between them, and delay that amount.
   <Properties>
     <Property name='delay'>{delayTime}</Property>
   </Properties>
-  <ClassName>com.google.apigee.edgecallouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://edge-custom-delay-20191206.jar</ResourceURL>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
 </JavaCallout>
 ```
 
@@ -117,7 +117,6 @@ callout will select a random value between them, and delay that amount.
 
 You can find an example proxy bundle that uses the policy, [here in
 this repo](bundle/apiproxy).
-
 
 
 ## Building
