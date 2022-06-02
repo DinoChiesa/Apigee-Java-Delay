@@ -139,8 +139,9 @@ mvn install:install-file \
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>ant1</id>
@@ -166,7 +167,7 @@ mvn install:install-file \
                   <fileset dir="${project.build.directory}">
                     <include name="${project.build.finalName}.jar"/>
                     <!-- copy any required dependencies that are not
-                    already included in the Edge runtime:
+                    already included in the Apigee runtime:
                     -->
                     <include name="lib/*.jar"/>
                     <exclude name="lib/message-flow-1.0.0.jar"/>
