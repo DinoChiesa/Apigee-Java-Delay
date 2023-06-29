@@ -1,8 +1,8 @@
 # Delay callout
 
-This directory contains the Java source code and pom.xml file
-required to compile a simple custom policy for Apigee. The
-policy does one simple thing: delays for a designated or a random amount of time.
+This directory contains the Java source code and pom.xml file required to
+compile a simple custom policy for Apigee. The policy does one simple thing:
+delays for a designated or a random amount of time.
 
 ## Why might this be useful?
 
@@ -23,13 +23,17 @@ official Google product.
 
 ## Using this policy
 
-You do not need to build the source code in order to use the policy
-in Apigee Edge.  All you need is the built JAR, and the appropriate
-configuration for the policy.  If you want to build it, feel free.
-The instructions are at the bottom of this readme.
+You do not need to build the source code in order to use the policy in Apigee.
+All you need is the built JAR, and the appropriate configuration for the policy.
+If you want to build it, feel free.  The instructions are at the bottom of this
+readme.
 
 
-1. copy the jar file, available in  target/apigee-custom-delay-20210412.jar , if you have built the jar, or in [the repo](bundle/apiproxy/resources/java/apigee-custom-delay-20210412.jar) if you have not, to your apiproxy/resources/java directory. You can do this offline, or using the graphical Proxy Editor in the Apigee Edge Admin Portal.
+1. copy the jar file, available in target/apigee-custom-delay-20210412.jar , if
+   you have built the jar, or in [the
+   repo](bundle/apiproxy/resources/java/apigee-custom-delay-20210412.jar) if you
+   have not, to your apiproxy/resources/java directory. You can do this offline,
+   or using the graphical Proxy Editor in the Apigee Admin UI.
 
 2. include an XML file for the Java callout policy in your
    apiproxy/resources/policies directory. It should look
@@ -42,16 +46,34 @@ The instructions are at the bottom of this readme.
     </JavaCallout>
    ```
 
-3. use the Edge UI, or a command-line tool like [importAndDeploy.js](https://github.com/DinoChiesa/apigee-edge-js/blob/master/examples/importAndDeploy.js) or similar to
-   import the proxy into an Edge organization, and then deploy the proxy .
+3. use the Apigee UI, or a command-line
+   tool like [importAndDeploy.js](https://github.com/DinoChiesa/apigee-edge-js/blob/master/examples/importAndDeploy.js)
+   or
+   [apigeecli](https://github.com/apigee/apigeecli) or similar to
+   import the proxy into an Apigee organization, and then deploy the proxy.
    Eg,
-   ```
+   ```sh
+   ORG=my-org
+   ENV=eval
    node ./importAndDeploy.js -v -o $ORG -e $ENV -d ./bundle
    ```
 
+   or
+   ```sh
+   ORG=my-org
+   ENV=eval
+   apigeecli apis create bundle -f ./bundle/apiproxy --name multipart-form -o $ORG  --token $TOKEN
+   apigeecli apis deploy --wait --name multipart-form --ovr --rev 1 --org $ORG --env $ENV --token "$TOKEN"
+   ```
+
+
 4. Use a client to generate and send http requests to the proxy you just deployed . Eg,
    ```
-   curl -i "https://$ORG-$ENV.apigee.net/delay/t1"
+   # Apigee Edge
+   endpoint=https://$ORG-$ENV.apigee.net
+   # Apigee X/hybrid
+   endpoint=https://my-custom-endpoint.net
+   curl -i "$endpoint/delay/t1"
    ```
 
 
@@ -141,8 +163,8 @@ if you like. Building from source requires Java 1.8, and Maven.
 
 ## Build Dependencies
 
-- Apigee Edge expressions v1.0
-- Apigee Edge message-flow v1.0
+- Apigee expressions v1.0
+- Apigee message-flow v1.0
 
 These jars must be available on the classpath for the compile to
 succeed. You do not need to worry about these jars if you are not
@@ -157,14 +179,14 @@ maven cache. The pom file will take care of the other Jars.
 ## Support
 
 This callout is open-source software, and is not a supported part of
-Apigee Edge.  If you need assistance, you can try inquiring on [The
-Apigee Community Site](https://community.apigee.com).  There is no
+Apigee.  If you need assistance, you can try inquiring on [The
+Apigee Community Site](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee).  There is no
 service-level guarantee for responses to inquiries regarding this
 callout.
 
 ## License
 
-This material is Copyright 2019
+This material is Copyright 2019-2023
 Google LLC.  and is licensed under the [Apache 2.0
 License](LICENSE). This includes the Java code as well as the API
 Proxy configuration.
