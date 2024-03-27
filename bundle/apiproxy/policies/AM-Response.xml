@@ -3,7 +3,7 @@
   <Set>
     <Payload contentType='application/json'>{
   "start" : "{delay.start}",
-  "delay" : "{delay.delay}",
+  "delay" : "{delay.delay}ms",
   "end" : "{delay.end}"
 }
 </Payload>

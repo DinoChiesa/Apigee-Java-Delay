@@ -1,0 +1,7 @@
+<JavaCallout name='Java-Delay-Random-Delay-Brief-100-300'>
+  <Properties>
+    <Property name='delay'>100,300</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20240327.jar</ResourceURL>
+</JavaCallout>

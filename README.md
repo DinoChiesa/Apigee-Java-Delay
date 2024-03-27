@@ -1,4 +1,4 @@
-# Delay callout
+# Apigee Delay callout
 
 This directory contains the Java source code and pom.xml file required to
 compile a simple custom policy for Apigee. The policy does one simple thing:
@@ -13,8 +13,14 @@ alleviate that concern. You could introduce this callout into the proxy flow,
 perhaps in a fault rule, and that would cause the response time to be
 randomized, preventing a timnig attack.
 
-2. In cases in which a caller is suspect, or has caused several consecutive errors,
-this callout could force a fixed delay, or a backoff delay, before retry.
+2. In cases in which a caller is suspect, or has caused several consecutive
+errors, or is calling too often, this callout could force a fixed delay, or a
+backoff delay, or a random delay, before Apigee sends the response.
+
+How to determine if a caller is "calling too much" is up to you. You can use the
+Quota policy with a `continueOnError='true'` as one way to do that. Or a
+`CountOnly` element.
+
 
 ## Disclaimer
 
@@ -29,9 +35,10 @@ If you want to build it, feel free.  The instructions are at the bottom of this
 readme.
 
 
-1. copy the jar file, available in target/apigee-custom-delay-20210412.jar , if
+
+1. copy the jar file, available in target/apigee-custom-delay-20240327.jar , if
    you have built the jar, or in [the
-   repo](bundle/apiproxy/resources/java/apigee-custom-delay-20210412.jar) if you
+   repo](bundle/apiproxy/resources/java/apigee-custom-delay-20240327.jar) if you
    have not, to your apiproxy/resources/java directory. You can do this offline,
    or using the graphical Proxy Editor in the Apigee Admin UI.
 
@@ -47,31 +54,20 @@ readme.
    ```
 
 3. use the Apigee UI, or a command-line
-   tool like [importAndDeploy.js](https://github.com/DinoChiesa/apigee-edge-js/blob/master/examples/importAndDeploy.js)
-   or
-   [apigeecli](https://github.com/apigee/apigeecli) or similar to
+   tool like [apigeecli](https://github.com/apigee/apigeecli) or similar to
    import the proxy into an Apigee organization, and then deploy the proxy.
    Eg,
    ```sh
    ORG=my-org
-   ENV=eval
-   node ./importAndDeploy.js -v -o $ORG -e $ENV -d ./bundle
-   ```
-
-   or
-   ```sh
-   ORG=my-org
-   ENV=eval
-   apigeecli apis create bundle -f ./bundle/apiproxy --name multipart-form -o $ORG  --token $TOKEN
-   apigeecli apis deploy --wait --name multipart-form --ovr --rev 1 --org $ORG --env $ENV --token "$TOKEN"
+   ENV=my-environment
+   TOKEN=$(gcloud auth print-access-token)
+   apigeecli apis create bundle -f ./bundle/apiproxy --name my-proxy-name -o $ORG  --token $TOKEN
+   apigeecli apis deploy --wait --name my-proxy-name --ovr --org $ORG --env $ENV --token $TOKEN
    ```
 
 
 4. Use a client to generate and send http requests to the proxy you just deployed . Eg,
    ```
-   # Apigee Edge
-   endpoint=https://$ORG-$ENV.apigee.net
-   # Apigee X/hybrid
    endpoint=https://my-custom-endpoint.net
    curl -i "$endpoint/delay/t1"
    ```
@@ -81,9 +77,10 @@ readme.
 
 There is one callout class, com.google.apigee.callouts.delay.DelayCallout.
 
-The delay time in milliseconds for the policy is configured via a property in the XML. By default it is a random number between 850 and 1850 milliseconds.
+The delay time in milliseconds for the policy is configured via a property in
+the XML.
 
-## Example: Delay a random amount of time
+## Example: Delay a random amount of time, subject to the defaults
 
 The callout is compiled to sleep between 850 and 1850 milliseconds. It selects
 randomly.
@@ -94,7 +91,8 @@ randomly.
   <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
 </JavaCallout>
 ```
-## Example: Delay a random amount of time
+
+## Example: Delay a random amount of time, given specific min and max
 
 With this configuration you can specify the minimum and maximum time, and the
 callout will select a random value between them, and delay that amount.
@@ -115,7 +113,7 @@ callout will select a random value between them, and delay that amount.
 ```xml
 <JavaCallout name='Java-Delay-1'>
   <Properties>
-    <!-- delay exactly 4 seconds -->
+    <!-- delay exactly 4000 milliseconds -->
     <Property name='delay'>4000</Property>
   </Properties>
   <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
@@ -148,16 +146,18 @@ if you like. Building from source requires Java 1.8, and Maven.
 
 1. unpack (if you can read this, you've already done that).
 
-2. Before building _the first time_, configure the build on your machine by loading the Apigee jars into your local cache:
-  ```
-  ./buildsetup.sh
-  ```
+2. Before building _the first time_, configure the build on your machine by
+   loading the Apigee jars into your local cache:
+
+   ```
+   ./buildsetup.sh
+   ```
 
 3. Build with maven.
-  ```
-  mvn clean package
-  ```
-  This will build the jar and also run all the tests.
+   ```
+   mvn clean package
+   ```
+   This will build the jar and also run all the tests.
 
 
 
@@ -186,9 +186,8 @@ callout.
 
 ## License
 
-This material is Copyright 2019-2023
-Google LLC.  and is licensed under the [Apache 2.0
-License](LICENSE). This includes the Java code as well as the API
+This material is Copyright 2019-2024 Google LLC.  and is licensed under the
+[Apache 2.0 License](LICENSE). This includes the Java code as well as the API
 Proxy configuration.
 
 ## Bugs

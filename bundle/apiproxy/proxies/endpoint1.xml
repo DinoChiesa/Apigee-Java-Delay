@@ -7,19 +7,29 @@
   </HTTPProxyConnection>
 
   <FaultRules/>
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
 
   <PreFlow name="PreFlow">
     <Request/>
     <Response>
       <Step>
-        <Name>AM-CleanResponseHeaders</Name>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
       </Step>
     </Response>
   </PreFlow>
 
   <PostFlow name="PostFlow">
     <Request/>
-    <Response/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
@@ -33,7 +43,7 @@
     <Flow name="t1">
       <Request>
         <Step>
-          <Name>Java-Delay-1</Name>
+          <Name>Java-Delay-Fixed-1500</Name>
         </Step>
       </Request>
       <Response>
@@ -44,10 +54,38 @@
       <Condition>proxy.pathsuffix MatchesPath "/t1" and request.verb = "GET"</Condition>
     </Flow>
 
+    <Flow name="t2">
+      <Request>
+        <Step>
+          <Name>Java-Delay-Random-Delay-Brief-100-300</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t2" and request.verb = "GET"</Condition>
+    </Flow>
+
+    <Flow name="t3">
+      <Request>
+        <Step>
+          <Name>Java-Delay-Random-Delay-1000-3000</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t3" and request.verb = "GET"</Condition>
+    </Flow>
+
     <Flow name="unknown request">
       <Request>
         <Step>
-          <Name>RF-UnknownRequest</Name>
+          <Name>RF-Unknown-Request</Name>
         </Step>
       </Request>
       <Response>

@@ -1,3 +1,18 @@
+// Copyright 2019-2024 Google LLC.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
 package com.google.apigee.callouts.delay;
 
 import com.apigee.flow.execution.ExecutionContext;
@@ -9,6 +24,7 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DelayCallout extends CalloutBase implements Execution {
 
@@ -53,42 +69,20 @@ public class DelayCallout extends CalloutBase implements Execution {
 
   public ExecutionResult execute(
       final MessageContext messageContext, final ExecutionContext executionContext) {
-    Instant start = Instant.now();
-    messageContext.setVariable(varName("start"), DateTimeFormatter.ISO_INSTANT.format(start));
+    messageContext.setVariable(
+        varName("start"), DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
     int delayMilliseconds = getDelay(messageContext);
     messageContext.setVariable(varName("delay"), Integer.toString(delayMilliseconds));
-    executionContext.submitTask(
-        new DelayTask(delayMilliseconds, varName("end"), messageContext, executionContext));
+    executionContext.scheduleTask(
+        () -> {
+          messageContext.setVariable(
+              varName("end"), DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
+          executionContext.resume();
+          return;
+        },
+        delayMilliseconds,
+        TimeUnit.MILLISECONDS);
+
     return ExecutionResult.PAUSE;
-  }
-
-  private static class DelayTask implements Runnable {
-    int delayMilliseconds;
-    String variableName;
-    MessageContext messageContext;
-    ExecutionContext executionContext;
-
-    DelayTask(
-        int delayMilliseconds,
-        String variableName,
-        MessageContext messageContext,
-        ExecutionContext executionContext) {
-      this.delayMilliseconds = delayMilliseconds;
-      this.variableName = variableName;
-      this.messageContext = messageContext;
-      this.executionContext = executionContext;
-    }
-
-    public void run() {
-      try {
-        Thread.sleep(delayMilliseconds);
-      } catch (InterruptedException ex) {
-        Thread.currentThread().interrupt();
-      }
-
-      Instant end = Instant.now();
-      messageContext.setVariable(variableName, DateTimeFormatter.ISO_INSTANT.format(end));
-      executionContext.resume();
-    }
   }
 }

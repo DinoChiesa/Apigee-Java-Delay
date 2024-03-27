@@ -1,4 +1,0 @@
-<JavaCallout name='Java-Delay-1'>
-  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
-  <ResourceURL>java://apigee-custom-delay-20210412.jar</ResourceURL>
-</JavaCallout>

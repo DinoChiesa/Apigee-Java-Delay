@@ -1,0 +1,7 @@
+<JavaCallout name='Java-Delay-Fixed-1500'>
+  <Properties>
+    <Property name='delay'>1500</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.delay.DelayCallout</ClassName>
+  <ResourceURL>java://apigee-custom-delay-20240327.jar</ResourceURL>
+</JavaCallout>
