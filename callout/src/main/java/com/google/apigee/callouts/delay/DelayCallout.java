@@ -30,7 +30,7 @@ public class DelayCallout extends CalloutBase implements Execution {
 
   private static final int DEFAULT_MIN_DELAY_MILLISECONDS = 850;
   private static final int DEFAULT_MAX_DELAY_MILLISECONDS = 1850;
-  private static final int MAX_DELAY_MILLISECONDS = 10000;
+  private static final int MAX_DELAY_MILLISECONDS = 30000;
   private static final SecureRandom secureRandom = new SecureRandom();
 
   public DelayCallout(Map properties) {
